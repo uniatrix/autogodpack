@@ -38,14 +38,14 @@ class StatePersistence:
         effective_slot_id = slot_id if slot_id is not None else (self.slot_id if self.slot_id is not None else 0)
         
         if not self.state_file.exists():
-            logger.info("State file does not exist, initializing empty state")
+            logger.debug("State file does not exist, initializing empty state")
             return ExpansionState()
 
         try:
             with open(self.state_file, "r", encoding="utf-8") as f:
                 content = f.read().strip()
                 if not content:
-                    logger.info("State file is empty, initializing empty state")
+                    logger.debug("State file is empty, initializing empty state")
                     return ExpansionState()
 
                 data = json.loads(content)
@@ -79,14 +79,14 @@ class StatePersistence:
             MultiBotExpansionState with all bot data.
         """
         if not self.state_file.exists():
-            logger.info("State file does not exist, initializing empty state")
+            logger.debug("State file does not exist, initializing empty state")
             return MultiBotExpansionState()
 
         try:
             with open(self.state_file, "r", encoding="utf-8") as f:
                 content = f.read().strip()
                 if not content:
-                    logger.info("State file is empty, initializing empty state")
+                    logger.debug("State file is empty, initializing empty state")
                     return MultiBotExpansionState()
 
                 data = json.loads(content)

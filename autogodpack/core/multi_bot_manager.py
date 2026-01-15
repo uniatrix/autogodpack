@@ -58,7 +58,12 @@ class BotInstance:
         if self.is_running:
             logger.warning(f"Bot {self.slot_id} is already running")
             return False
-        
+
+        # For network devices (IP:port format), connect first
+        if ":" in self.device_serial and not self.device_serial.startswith("emulator-"):
+            logging.info(f"[Bot {self.slot_id + 1}] Connecting to network device {self.device_serial}")
+            DeviceManager.connect_device(self.device_serial)
+
         # Test device connection
         if not DeviceManager.test_connection(self.device_serial):
             self.status = "Connection Failed"

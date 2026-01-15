@@ -1341,6 +1341,11 @@ class AutoGodPackGUI:
         
         # Test connection with timeout
         try:
+            # For network devices (IP:port format), connect first
+            if ":" in current_serial and not current_serial.startswith("emulator-"):
+                logging.info(f"Connecting to network device {current_serial}")
+                DeviceManager.connect_device(current_serial)
+
             if not DeviceManager.test_connection(current_serial):
                 messagebox.showerror(
                     "Device Error",
@@ -1684,6 +1689,11 @@ Bot Thread: {self.bot_thread is not None if self.bot_thread else None}
                 )
                 return
             
+            # For network devices (IP:port format), connect first
+            if ":" in device_serial and not device_serial.startswith("emulator-"):
+                logging.info(f"Connecting to network device {device_serial}")
+                DeviceManager.connect_device(device_serial)
+
             # Test connection
             if not DeviceManager.test_connection(device_serial):
                 messagebox.showerror(

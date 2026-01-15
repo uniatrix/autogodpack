@@ -122,27 +122,46 @@ class DeviceManager:
             return False
 
     @staticmethod
-    def test_connection(serial: str) -> bool:
+    def test_connection(serial: str, retries: int = 2) -> bool:
         """
         Test connection to a device.
 
         Args:
             serial: Device serial or IP:port.
+            retries: Number of retry attempts for network devices.
 
         Returns:
             True if device is reachable.
         """
-        try:
-            # Use shorter timeout to avoid blocking GUI when starting multiple bots
-            result = subprocess.run(
-                ["adb", "-s", serial, "shell", "echo", "test"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                timeout=2,  # Reduced from 5 to 2 seconds
-            )
+        import time
 
-            return result.returncode == 0
+        # Network devices may need longer timeout and retries
+        is_network_device = ":" in serial and not serial.startswith("emulator-")
+        timeout = 5 if is_network_device else 2
+        max_attempts = retries if is_network_device else 1
 
-        except Exception:
-            return False
+        for attempt in range(max_attempts):
+            try:
+                result = subprocess.run(
+                    ["adb", "-s", serial, "shell", "echo", "test"],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    timeout=timeout,
+                )
+
+                if result.returncode == 0:
+                    return True
+
+                if attempt < max_attempts - 1:
+                    logger.debug(f"Connection test failed for {serial}, retrying ({attempt + 1}/{max_attempts})...")
+                    time.sleep(0.5)
+
+            except subprocess.TimeoutExpired:
+                if attempt < max_attempts - 1:
+                    logger.debug(f"Connection test timed out for {serial}, retrying ({attempt + 1}/{max_attempts})...")
+                    time.sleep(0.5)
+            except Exception:
+                pass
+
+        return False
 

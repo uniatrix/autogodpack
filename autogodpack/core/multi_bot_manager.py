@@ -2,6 +2,7 @@
 
 import logging
 import threading
+import time
 from typing import Dict, Optional, List
 from pathlib import Path
 
@@ -62,7 +63,13 @@ class BotInstance:
         # For network devices (IP:port format), connect first
         if ":" in self.device_serial and not self.device_serial.startswith("emulator-"):
             logging.info(f"[Bot {self.slot_id + 1}] Connecting to network device {self.device_serial}")
-            DeviceManager.connect_device(self.device_serial)
+            if not DeviceManager.connect_device(self.device_serial):
+                self.status = "Connection Failed"
+                self.error_message = f"Cannot connect to device: {self.device_serial}"
+                logging.error(f"[Bot {self.slot_id + 1}] {self.error_message}")
+                return False
+            # Wait for connection to stabilize
+            time.sleep(1)
 
         # Test device connection
         if not DeviceManager.test_connection(self.device_serial):

@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir /s \"c:\\\\Coding\\\\Python\\\\Projects\\\\autogodpack\")",
+      "WebFetch(domain:github.com)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nInitial commit: AutoGodPack automation tool\n\n- Core automation framework for mobile game bot\n- Template matching system with configurable thresholds\n- GUI interface for bot control\n- Multi-device support via ADB\n- Expansion pack cycling automation\n- Comprehensive configuration via YAML\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+    ]
+  }
+}

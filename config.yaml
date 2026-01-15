@@ -1,0 +1,74 @@
+# AutoGodPack Configuration File
+
+# ADB Configuration
+adb:
+  serial: "127.0.0.1:5585"  # ADB device serial number or IP:port
+  command_timeout: 10       # Timeout for ADB commands in seconds
+
+# Automation Settings
+automation:
+  type: "battle"            # Type of automation (currently only "battle" supported)
+  cycle_delay: 1.0          # Delay between battle cycles in seconds
+  fast_mode: false          # Enable fast mode for quicker execution
+
+# Template Matching Settings
+matching:
+  default_threshold: 0.75   # Default template matching threshold (0.0 to 1.0)
+  verbose: true             # Enable verbose logging for template matching
+
+# Screen Detection Settings
+screens:
+  check_interval: 0.4       # Interval between screen checks in seconds
+  fast_check_interval: 0.1  # Fast mode check interval in seconds
+  tap_delay: 1.0           # Delay after tap operations in seconds
+  fast_tap_delay: 0.2      # Fast mode tap delay in seconds
+  retry_delay: 0.5         # Delay between retries in seconds
+  fast_retry_delay: 0.15   # Fast mode retry delay in seconds
+
+# Battle Settings
+battle:
+  max_wait_time: null       # Maximum wait time for battle completion (null = unlimited)
+  auto_toggle_verification: true  # Verify auto toggle before proceeding
+  battle_start_check_interval: 2.0  # Check interval before battle starts
+  battle_progress_check_interval: 0.5  # Check interval during battle
+
+# Expansion Settings
+expansions:
+  series_a:
+    - "GA"
+    - "MI"
+    - "STS"
+    - "TL"
+    - "SR"
+    - "CG"
+    - "EC"
+    - "EG"
+    - "WSS"
+    - "SS"
+    - "DPex"
+  series_b:
+    - "CB"
+    - "MR"
+  max_scrolls: 8            # Maximum scrolls when searching for expansions
+  max_reset_attempts: 2     # Maximum reset attempts for expansion search
+  max_attempts_per_expansion: 3  # Maximum attempts to find each expansion
+
+# Paths (relative to project root)
+paths:
+  templates: "autogodpack/templates"  # Template images directory
+  logs: "logs"                        # Log files directory
+  state: "completed_expansions.json"  # State persistence file
+  reset_flag: "reset_expansions.flag"  # Reset flag file
+
+# Logging Configuration
+logging:
+  level: "INFO"              # Logging level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  file: "logs/battle_bot.log"  # Log file path
+  console: true              # Enable console logging
+  format: "%(asctime)s %(levelname)s %(message)s"  # Log format
+
+
+
+
+
+
